@@ -26,11 +26,7 @@ public class Lista_nodo_define_new_instruction {
 
     //Constructor
     public boolean Lista_nodo_define_new_instructionVacia() {//EN CASO DE  QUE LA LISTA ESTE VACIA
-        if (Pri == null) {
-            return true;
-        } else {
-            return false;
-        }
+        return Pri == null;
     }
 
     //Metodo para insertar por el frente de la lista
@@ -48,6 +44,14 @@ public class Lista_nodo_define_new_instruction {
             Pri = Ult = new nodo_define_new_instruction(lexema, parametro);
         } else {
             Ult = Ult.sig = new nodo_define_new_instruction(lexema, parametro);
+        }
+    }
+
+    public void Insertar_Nodo_Final(String lexema, boolean parametro, String valor) {
+        if (Lista_nodo_define_new_instructionVacia()) {
+            Pri = Ult = new nodo_define_new_instruction(lexema, parametro, valor);
+        } else {
+            Ult = Ult.sig = new nodo_define_new_instruction(lexema, parametro, valor);
         }
     }
 
