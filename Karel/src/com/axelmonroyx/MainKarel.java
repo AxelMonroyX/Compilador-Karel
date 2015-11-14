@@ -76,7 +76,6 @@ public class MainKarel {
                 }
             }
         });
-
         lexicoButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 runLexico();
@@ -118,7 +117,6 @@ public class MainKarel {
         Object[] row = {lexema, token, num_renglon};
         model.addRow(row);
     }
-
 
     public void runLexico() {
         try {
