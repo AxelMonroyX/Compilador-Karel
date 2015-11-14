@@ -11,6 +11,8 @@ import com.axelmonroyx.Lexico.nodo;
 import com.axelmonroyx.Semantica.Lista_nodo_define_new_instruction;
 import com.axelmonroyx.Semantica.Lista_nodo_external;
 
+import java.util.Stack;
+
 /**
  * @author Axel Monroy <xaxelmonroyx@gmail.com>
  */
@@ -54,7 +56,9 @@ public class Sintaxis {
     Lista_nodo_define_new_instruction Lista_new_instructions = new Lista_nodo_define_new_instruction();
     Lista_nodo_external Lista_externals = new Lista_nodo_external();
     Lista_polish lista_polish = new Lista_polish();
+    Lista_polish lista_expresiones = new Lista_polish();
     GenerarOBJ generarOBJ;
+    Stack<String> pila = new Stack<String>();
 
     public Sintaxis(nodo cabeza) {
         p = cabeza;
@@ -456,6 +460,7 @@ public class Sintaxis {
         if (p.token == 217) { //if
             p = p.sig;
             if (identificarExpresion()) {
+                insertarExpresionIfPolish();
                 if (p.token == 218) {//then
                     p = p.sig;
                     if (identificarStatement()) {
@@ -487,6 +492,15 @@ public class Sintaxis {
             ImprimirError(516);
         }
         return false;
+    }
+
+    private void insertarExpresionIfPolish() {
+        //Se tiene lista_expresion y pila
+        if (!pila.empty() && !lista_expresiones.Lista_polishVacia()) {
+
+        }
+
+
     }
 
     private boolean identificarWhile_Statement() {
@@ -558,6 +572,8 @@ public class Sintaxis {
     private boolean identificarExpresion() {
         if (identificarAndClause()) {
             if (p.token == 213) { //or
+                insertarPila("or");
+
                 p = p.sig;
                 if (identificarExpresion()) {
                     return true;
@@ -572,6 +588,7 @@ public class Sintaxis {
     private boolean identificarAndClause() {
         if (identificarNotClause()) {
             if (p.token == 214) { //and
+                insertarPila("and");
                 p = p.sig;
                 if (identificarAndClause()) {
                     return true;
@@ -585,6 +602,7 @@ public class Sintaxis {
 
     private boolean identificarNotClause() {
         if (p.token == 215) { //not
+            insertarPila("not");
             p = p.sig;
             if (identificarAtomClause()) {
                 return true;
@@ -596,6 +614,39 @@ public class Sintaxis {
             }
         }
         return false;
+    }
+
+    private void insertarPila(String operador) {
+        // and or not
+        if (pila.empty()) {
+            pila.push(operador);
+        } else {
+            if (operador.equals("or") || operador.equals("and")
+                    || operador.equals("not")) {
+                if (pila.peek().equals("or") ||
+                        pila.peek().equals("and") || pila.peek().equals("not")) {
+                    lista_expresiones.Insertar_Nodo_Final(pila.peek(), 102, "operador");
+                    pila.pop();
+                    pila.push(operador);
+
+                } else if (operador.equals(")")) {
+                    //  en caso de ser  o   )
+                    pila.push(operador);
+                } else if (operador.equals("(")) {
+                    while (!pila.empty() && pila.peek().equals(")")) {
+                        lista_expresiones.Insertar_Nodo_Final(pila.peek(), 100, operador);
+                        pila.pop();
+
+                    }
+                    if (pila.empty() && pila.peek().equals(")")) pila.pop();
+
+
+                }
+
+            }
+
+
+        }
     }
 
     private boolean identificarAtomClause() {
@@ -633,7 +684,10 @@ public class Sintaxis {
     private boolean identificarBooleanFunction() {
         if (p.token >= 229 && p.token < 246) {
             boolean valor = false;
-            lista_polish.Insertar_Nodo_Final(p.lexema, p.token, "operando", valor);
+            //OBJ
+            //lista_polish.Insertar_Nodo_Final(p.lexema, p.token, "operando", valor);
+            lista_expresiones.Insertar_Nodo_Final(p.lexema, p.token, "operando", valor);
+
             p = p.sig;
             return true;
         }
@@ -651,10 +705,10 @@ public class Sintaxis {
                 if (!Lista_new_instructions.nodoEncontrado(aux4.lexema, false)) {
                     ImprimirError(602);
                 } else {
+                    //OBJ
                     lista_polish.Insertar_Nodo_Final(aux4.lexema, aux4.token, "operando");
                     lista_polish.Insertar_Nodo_Final("print", aux4.token, "operador");
                 }
-                //OBJ
 
 
                 //Linea de semantica Error 602 Call Statement opcion #2
@@ -669,8 +723,9 @@ public class Sintaxis {
                             if (p.token == 105) { //;
                                 if (!Lista_new_instructions.nodoEncontrado(aux4.lexema, true)) {
                                     ImprimirError(602);
-                                } else {//OBJ
+                                } else { //OBJ
                                     lista_polish.Insertar_Nodo_Final(aux4.lexema, aux4.token, "operando");
+                                    lista_polish.Insertar_Nodo_Final("print", aux4.token, "operador");
                                 }
                                 //Linea de semantica Error 602 Call Statement opcion #1
                                 return true;
