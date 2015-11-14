@@ -5,6 +5,8 @@ package com.axelmonroyx.Sintaxis;
 
 //import javax.swing.JOptionPane;
 
+import com.axelmonroyx.GenerarCodigoObjeto.GenerarOBJ;
+import com.axelmonroyx.GenerarCodigoObjeto.Lista_polish;
 import com.axelmonroyx.Lexico.nodo;
 import com.axelmonroyx.Semantica.Lista_nodo_define_new_instruction;
 import com.axelmonroyx.Semantica.Lista_nodo_external;
@@ -14,6 +16,8 @@ import com.axelmonroyx.Semantica.Lista_nodo_external;
  */
 public class Sintaxis {
 
+    public boolean sintaxis_correcta = false;
+    public boolean semantica_correcta = true;
     nodo p;
     String errores[][] = {
             // 0              						 1   <------numero de columna
@@ -47,30 +51,26 @@ public class Sintaxis {
         /*602*/ {"Verifica que la instrucción haya sido declarada anteriormente con define-new-instruction", "602"}
 
     };
-    public boolean sintaxis_correcta = false;
-    public boolean semantica_correcta = true;
     Lista_nodo_define_new_instruction Lista_new_instructions = new Lista_nodo_define_new_instruction();
     Lista_nodo_external Lista_externals = new Lista_nodo_external();
+    Lista_polish lista_polish = new Lista_polish();
+    GenerarOBJ generarOBJ;
 
     public Sintaxis(nodo cabeza) {
         p = cabeza;
         System.out.println("----------------------------------------");
-        //System.out.println("Primer Nodo: \t\t\t" + p.lexema + " \t\t" + p.token + " \t\t" + p.num_renglon);
         if (identificarProgramDeclaration()) {
             System.out.println("Sintaxis correcta");
             sintaxis_correcta = true;
-            //error_encontrado = false;
-            //JOptionPane.showMessageDialog(null, "Sintaxis Correcta");
-            //Lista_new_instructions.Mostrar();
-//            Lista_externals.Mostrar();
-//            Lista_new_instructions.Mostrar();
+            //OBJ
+            generarOBJ = new GenerarOBJ(lista_polish);
+
         } else {
             sintaxis_correcta = false;
 
-            //JOptionPane.showMessageDialog(null, "Sintaxis Incorrecta");
         }
 
-        //System.out.println("Ultimo Nodo: \t\t\t" + p.lexema + " \t\t" + p.token + " \t\t" + p.num_renglon);
+
     }
 
     private void ImprimirError(int errorIdentificado) {
@@ -150,7 +150,8 @@ public class Sintaxis {
                     if (Lista_new_instructions.nodoEncontrado(aux3.lexema, false)) {
                         ImprimirError(600);
                     } else {
-                        Lista_new_instructions.Insertar_Nodo_Final(aux3.lexema, false);
+                        Lista_new_instructions.Insertar_Nodo_Final(aux3.lexema, false, p.sig.lexema);
+
                     }
 
                     System.out.println("Insertar nodo");
@@ -172,7 +173,7 @@ public class Sintaxis {
                                 if (Lista_new_instructions.nodoEncontrado(aux3.lexema, true)) {
                                     ImprimirError(600);
                                 } else {
-                                    Lista_new_instructions.Insertar_Nodo_Final(aux3.lexema, true);
+                                    Lista_new_instructions.Insertar_Nodo_Final(aux3.lexema, true, p.sig.lexema);
                                 }
 
                                 if (p.token == 204) {// as
@@ -631,6 +632,8 @@ public class Sintaxis {
 
     private boolean identificarBooleanFunction() {
         if (p.token >= 229 && p.token < 246) {
+            boolean valor = false;
+            lista_polish.Insertar_Nodo_Final(p.lexema, p.token, "operando", valor);
             p = p.sig;
             return true;
         }
@@ -647,7 +650,12 @@ public class Sintaxis {
             if (p.token == 105) { // ;
                 if (!Lista_new_instructions.nodoEncontrado(aux4.lexema, false)) {
                     ImprimirError(602);
+                } else {
+                    lista_polish.Insertar_Nodo_Final(aux4.lexema, aux4.token, "operando");
+                    lista_polish.Insertar_Nodo_Final("print", aux4.token, "operador");
                 }
+                //OBJ
+
 
                 //Linea de semantica Error 602 Call Statement opcion #2
                 return true;
@@ -661,6 +669,8 @@ public class Sintaxis {
                             if (p.token == 105) { //;
                                 if (!Lista_new_instructions.nodoEncontrado(aux4.lexema, true)) {
                                     ImprimirError(602);
+                                } else {//OBJ
+                                    lista_polish.Insertar_Nodo_Final(aux4.lexema, aux4.token, "operando");
                                 }
                                 //Linea de semantica Error 602 Call Statement opcion #1
                                 return true;
