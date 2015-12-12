@@ -69,7 +69,7 @@ public class Sintaxis {
             System.out.println("Sintaxis correcta");
             sintaxis_correcta = true;
             //OBJ
-            //generarOBJ = new GenerarOBJ(lista_polish);
+            generarOBJ = new GenerarOBJ(lista_polish);
             lista_polish.Mostrar();
 
         } else {
@@ -569,14 +569,20 @@ public class Sintaxis {
     }
 
     private boolean identificarTurnoff_Statement() {
+        lista_polish.Insertar_Nodo_Final("turnoff", 100, "operando");
+        lista_polish.Insertar_Nodo_Final("print", 100, "operador");
         return true;
     }
 
     private boolean identificarTurnleft_Statement() {
+        lista_polish.Insertar_Nodo_Final("turnleft", 100, "operando");
+        lista_polish.Insertar_Nodo_Final("print", 100, "operador");
         return true;
     }
 
     private boolean identificarMove_Statement() {
+        lista_polish.Insertar_Nodo_Final("move", 100, "operando");
+        lista_polish.Insertar_Nodo_Final("print", 100, "operador");
         return true;
     }
 
@@ -588,6 +594,8 @@ public class Sintaxis {
     }
 
     private boolean identificarPutbeeper_Statement() {
+        lista_polish.Insertar_Nodo_Final("putbeeper", 100, "operando");
+        lista_polish.Insertar_Nodo_Final("print", 100, "operador");
         return true;
     }
 

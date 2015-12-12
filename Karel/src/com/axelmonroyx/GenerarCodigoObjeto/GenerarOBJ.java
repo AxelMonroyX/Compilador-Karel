@@ -24,7 +24,7 @@ public class GenerarOBJ {
         Date date = new Date();
 
         File f;
-        f = new File("codigo" + date.getTime() + ".txt");
+        f = new File("codigo" + date.getTime() + ".asm");
         try {
             FileWriter w = new FileWriter(f);
             BufferedWriter bw = new BufferedWriter(w);
