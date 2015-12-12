@@ -59,6 +59,8 @@ public class Sintaxis {
     Lista_polish lista_expresiones = new Lista_polish();
     GenerarOBJ generarOBJ;
     Stack<String> pila = new Stack<String>();
+    int punteroIF_P = 0;
+    private int punteroIF_Q;
 
     public Sintaxis(nodo cabeza) {
         p = cabeza;
@@ -67,7 +69,8 @@ public class Sintaxis {
             System.out.println("Sintaxis correcta");
             sintaxis_correcta = true;
             //OBJ
-            generarOBJ = new GenerarOBJ(lista_polish);
+            //generarOBJ = new GenerarOBJ(lista_polish);
+            lista_polish.Mostrar();
 
         } else {
             sintaxis_correcta = false;
@@ -461,9 +464,21 @@ public class Sintaxis {
             p = p.sig;
             if (identificarExpresion()) {
                 insertarExpresionIfPolish();
+
                 if (p.token == 218) {//then
                     p = p.sig;
-                    if (identificarStatement()) {
+                    //BRF P
+                    punteroIF_P++;
+                    lista_polish.Insertar_Brinco("BRF", 100, "operador", ("P" + punteroIF_P));
+
+                    if (identificarStatement()) { //S1
+                        // lista_polish.Mostrar();
+                        //BRF P
+                        punteroIF_Q++;
+                        lista_polish.Insertar_Brinco("BRI", 100, "operador", ("Q" + punteroIF_Q));
+                        lista_polish.Insertar_Nodo_Final("P" + punteroIF_P, 100, "puntero");
+
+
                         if (p.token == 105) {
                             nodo aux = p.sig;
 
@@ -473,10 +488,16 @@ public class Sintaxis {
 
                             if (p.token == 219) { //else
                                 p = p.sig;
+                                //lista_polish.Insertar_Nodo_Final("P" + punteroIF_P, 100, "puntero");
                                 if (identificarStatement()) {
+
+                                    //BRF Q
+                                    lista_polish.Insertar_Nodo_Final("Q" + punteroIF_Q, 100, "puntero");
                                     return true;
                                 }
                             } else {
+                                //BRF Q
+                                lista_polish.Insertar_Nodo_Final("Q" + punteroIF_Q, 100, "puntero");
 
                                 return true;
                             }
@@ -508,7 +529,7 @@ public class Sintaxis {
                 lista_expresiones.Eliminar_Nodo_Inicio();
             }
 
-            lista_polish.Mostrar();
+            //lista_polish.Mostrar();
             lista_expresiones = new Lista_polish();
 
         }
@@ -560,6 +581,9 @@ public class Sintaxis {
     }
 
     private boolean identificarPickbeeper_Statement() {
+
+        lista_polish.Insertar_Nodo_Final("pickbeeper", 100, "operando");
+        lista_polish.Insertar_Nodo_Final("print", 100, "operador");
         return true;
     }
 

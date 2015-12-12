@@ -50,7 +50,7 @@ public class Lista_polish {
         if (Lista_polishVacia()) {
             Pri = Ult = new nodo_polish(lexema, token, tipo, salto);
         } else {
-            Ult = Ult.sig = new nodo_polish(lexema, token, tipo);
+            Ult = Ult.sig = new nodo_polish(lexema, token, tipo, salto);
         }
     }
 
@@ -98,11 +98,15 @@ public class Lista_polish {
         if (Lista_polishVacia()) {
             System.out.println("La " + Nom + " esta vacia");
         }
-        System.out.println("Lexema" + "\t" + "Parametro");
+        System.out.println("Lexema" + "\t" + "Tipo" + "\t" + "Salto" + "\t" + "Valor");
         while (Actual != null) {
             System.out.print(Actual.lexema);
             System.out.print("\t");
             System.out.println(Actual.tipo);
+            System.out.print("\t");
+            System.out.println(Actual.salto);
+            System.out.print("\t");
+            System.out.println(Actual.valor);
             Actual = Actual.sig;
         }
     }
