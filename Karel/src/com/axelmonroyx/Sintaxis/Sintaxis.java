@@ -496,7 +496,20 @@ public class Sintaxis {
 
     private void insertarExpresionIfPolish() {
         //Se tiene lista_expresion y pila
-        if (!pila.empty() && !lista_expresiones.Lista_polishVacia()) {
+
+
+        if (pila.empty() && !lista_expresiones.Lista_polishVacia()) {
+            //System.out.println(lista_expresiones.toString());
+            // lista_expresiones.Mostrar();
+            while (!lista_expresiones.Lista_polishVacia()) {
+                //String lexema, int token, String tipo
+                lista_polish.Insertar_Nodo_Final(lista_expresiones.Pri.lexema,
+                        lista_expresiones.Pri.token, lista_expresiones.Pri.tipo);
+                lista_expresiones.Eliminar_Nodo_Inicio();
+            }
+
+            lista_polish.Mostrar();
+            lista_expresiones = new Lista_polish();
 
         }
 
@@ -576,13 +589,32 @@ public class Sintaxis {
 
                 p = p.sig;
                 if (identificarExpresion()) {
+                    Completar_Lista_Expresiones();
                     return true;
                 }
             } else {
+                //Completar_Lista_Expresiones();
                 return true;
             }
         }
         return false;
+    }
+
+    private void Completar_Lista_Expresiones() {
+        //OBJ
+        //System.out.println(pila.toString());
+        while (!pila.empty() && pila.peek() != null) {
+            //lista_polish.Insertar_Nodo_Final(p.lexema, p.token, "operando", valor);
+            String elemntopila = pila.peek();
+
+            lista_expresiones.Insertar_Nodo_Final(pila.peek(), 12555, "operador");
+            pila.pop();
+        }
+
+
+        //lista_expresiones.Mostrar();
+
+
     }
 
     private boolean identificarAndClause() {
@@ -655,6 +687,9 @@ public class Sintaxis {
             if (p.token == 103) { // (
                 p = p.sig;
                 if (p.token == 102) { // num
+                    lista_expresiones.Insertar_Nodo_Final(p.lexema, 102, "operando");
+                    lista_expresiones.Insertar_Nodo_Final("0", 102, "operando");
+                    lista_expresiones.Insertar_Nodo_Final("iszero", 216, "operador");
                     p = p.sig;
                     if (p.token == 104) { // )
                         p = p.sig;

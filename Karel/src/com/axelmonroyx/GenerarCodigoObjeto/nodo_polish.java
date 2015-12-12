@@ -4,11 +4,11 @@ package com.axelmonroyx.GenerarCodigoObjeto;
  * Created by axelmonroyx on 13/11/15.
  */
 public class nodo_polish {
-    String lexema;
-    int token;
-    String tipo; //operador operando
-    String salto;
-    String valor;
+    public String lexema;
+    public int token;
+    public String tipo; //operador operando
+    public String salto;
+    public String valor;
 
 
     // operador+-  BRF BRI

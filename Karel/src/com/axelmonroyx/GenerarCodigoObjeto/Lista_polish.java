@@ -6,8 +6,8 @@ package com.axelmonroyx.GenerarCodigoObjeto;
 public class Lista_polish {
 
     //Atributos de la lista
-    nodo_polish Pri;
-    nodo_polish Ult;
+    public nodo_polish Pri;
+    public nodo_polish Ult;
     String Nom;
 
     //Constructor de la lista
@@ -34,6 +34,15 @@ public class Lista_polish {
         } else {
             Ult = Ult.sig = new nodo_polish(lexema, token, tipo);
         }
+    }
+
+    //Metodo para limpiar la lista
+    public void Limpiar_Lista() {
+
+        Pri = null;
+        Ult = Pri;
+
+
     }
 
     //Metodo para insertar por la parte posterior de la lista
@@ -80,6 +89,21 @@ public class Lista_polish {
             Pri = Ult = new nodo_polish(lexema, token, tipo, valor);
         } else {
             Ult = Ult.sig = new nodo_polish(lexema, token, tipo, valor);
+        }
+    }
+
+    //Metodo para mostrar los datos de a lista
+    public void Mostrar() {
+        nodo_polish Actual = Pri;
+        if (Lista_polishVacia()) {
+            System.out.println("La " + Nom + " esta vacia");
+        }
+        System.out.println("Lexema" + "\t" + "Parametro");
+        while (Actual != null) {
+            System.out.print(Actual.lexema);
+            System.out.print("\t");
+            System.out.println(Actual.tipo);
+            Actual = Actual.sig;
         }
     }
 }

@@ -3,8 +3,10 @@
  */
 package com.axelmonroyx.Lexico;
 
-import javax.swing.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 /**
  * @author Axel Monroy <xaxelmonroyx@gmail.com>
@@ -13,22 +15,20 @@ import java.io.*;
 public class Lexico {
     public nodo cabeza = null;
     public nodo p;
+    public boolean error_encontrado = false;
     int estado = 0, columna, valorMT, num_renglon = 0;
     char caracter;
     String lexema = "";
     String archivo;
     //String archivo = "C:\\Users\\AxelMonroyX\\Downloads\\COMPI-MILLAN\\COMPI MILLAN\\codigo.txt";
     boolean bandReservada;
-
-    public boolean error_encontrado = false;
-
     int matriz[][] = {
             //Matriz de Transicion
             //		0	1	2	3	4	5	6	7	8	9	10	11	12	13	14      15
             //Q	L	D	-	/	*	(	)	;	"	eb	eol	nl	tab	eof	oc      rt
     /*0*/  {1, 2, 503, 3, 503, 103, 104, 105, 7, 0, 0, 0, 0, 0, 503, 0},
-	/*1*/  {1, 1, 1, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101},
-	/*2*/  {102, 2, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102},
+    /*1*/  {1, 1, 1, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101},
+    /*2*/  {102, 2, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102},
 	/*3*/  {501, 501, 501, 6, 4, 501, 501, 501, 501, 501, 501, 501, 501, 501, 501, 501},
 	/*4*/  {4, 4, 4, 4, 5, 4, 4, 4, 4, 4, 4, 4, 4, 500, 4, 4},
 	/*5*/  {4, 4, 4, 0, 4, 4, 4, 4, 4, 4, 4, 4, 4, 500, 4, 4},
@@ -101,7 +101,7 @@ public class Lexico {
 | "notfacingwest"}*/
     };
 
-    public Lexico() throws FileNotFoundException, IOException {
+    public Lexico() throws IOException {
         trabajarLexico();
     }//public LEXICO
 
@@ -111,7 +111,7 @@ public class Lexico {
         trabajarLexico();
     }
 
-    private void trabajarLexico() throws FileNotFoundException, IOException {
+    private void trabajarLexico() throws IOException {
         FileReader file = new FileReader(archivo);
         BufferedReader buff = new BufferedReader(file);
         boolean enf = false;
