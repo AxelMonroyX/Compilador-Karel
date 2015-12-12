@@ -11,6 +11,7 @@ import com.axelmonroyx.Lexico.nodo;
 import com.axelmonroyx.Semantica.Lista_nodo_define_new_instruction;
 import com.axelmonroyx.Semantica.Lista_nodo_external;
 
+import java.io.IOException;
 import java.util.Stack;
 
 /**
@@ -69,7 +70,11 @@ public class Sintaxis {
             System.out.println("Sintaxis correcta");
             sintaxis_correcta = true;
             //OBJ
-            generarOBJ = new GenerarOBJ(lista_polish);
+            try {
+                generarOBJ = new GenerarOBJ(lista_polish);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             lista_polish.Mostrar();
 
         } else {
