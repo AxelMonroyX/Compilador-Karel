@@ -78,17 +78,13 @@ public class Lista_polish {
     }
 
 
-    public void Insertar_Nodo_Final(String lexema, int token, String tipo, boolean valorBolean) {
+    public void Insertar_Nodo_Final(String lexema, int token, String tipo, String valorBolean) {
         String valor;
-        if (valorBolean) {
-            valor = "true";
-        } else {
-            valor = "false";
-        }
+
         if (Lista_polishVacia()) {
-            Pri = Ult = new nodo_polish(lexema, token, tipo, valor);
+            Pri = Ult = new nodo_polish(lexema, token, tipo, valorBolean);
         } else {
-            Ult = Ult.sig = new nodo_polish(lexema, token, tipo, valor);
+            Ult = Ult.sig = new nodo_polish(lexema, token, tipo, valorBolean);
         }
     }
 

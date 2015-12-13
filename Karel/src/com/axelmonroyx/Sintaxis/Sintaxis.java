@@ -7,10 +7,12 @@ package com.axelmonroyx.Sintaxis;
 
 import com.axelmonroyx.GenerarCodigoObjeto.GenerarOBJ;
 import com.axelmonroyx.GenerarCodigoObjeto.Lista_polish;
+import com.axelmonroyx.GenerarCodigoObjeto.nodo_polish;
 import com.axelmonroyx.Lexico.nodo;
 import com.axelmonroyx.Semantica.Lista_nodo_define_new_instruction;
 import com.axelmonroyx.Semantica.Lista_nodo_external;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.util.Stack;
 
@@ -62,6 +64,24 @@ public class Sintaxis {
     Stack<String> pila = new Stack<String>();
     int punteroIF_P = 0;
     private int punteroIF_Q;
+    private JRadioButton frontIsClearRadioButton;
+    private JRadioButton frontIsBlockedRadioButton;
+    private JRadioButton leftIsClearRadioButton;
+    private JRadioButton leftIsBlockedRadioButton;
+    private JRadioButton rightIsClearRadioButton;
+    private JRadioButton rightIsBlockedRadioButton;
+    private JRadioButton nextToABeeperRadioButton;
+    private JRadioButton noBeepersInBeeperRadioButton;
+    private JRadioButton notNextToARadioButton;
+    private JRadioButton facingSouthRadioButton;
+    private JRadioButton anyBeepersInBeeperRadioButton;
+    private JRadioButton facingNorthRadioButton;
+    private JRadioButton facingEastRadioButton;
+    private JRadioButton facingWestRadioButton;
+    private JRadioButton notFacingNorthRadioButton;
+    private JRadioButton notFacingEastRadioButton;
+    private JRadioButton notFacingSouthRadioButton;
+    private JRadioButton notFacingWestRadioButton;
 
     public Sintaxis(nodo cabeza) {
         p = cabeza;
@@ -75,7 +95,7 @@ public class Sintaxis {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            lista_polish.Mostrar();
+            //lista_polish.Mostrar();
 
         } else {
             sintaxis_correcta = false;
@@ -83,6 +103,44 @@ public class Sintaxis {
         }
 
 
+    }
+
+    public Sintaxis(nodo cabeza, JRadioButton frontIsClearRadioButton, JRadioButton frontIsBlockedRadioButton, JRadioButton leftIsClearRadioButton, JRadioButton leftIsBlockedRadioButton, JRadioButton rightIsClearRadioButton, JRadioButton rightIsBlockedRadioButton, JRadioButton nextToABeeperRadioButton, JRadioButton noBeepersInBeeperRadioButton, JRadioButton notNextToARadioButton, JRadioButton anyBeepersInBeeperRadioButton, JRadioButton facingNorthRadioButton, JRadioButton facingSouthRadioButton, JRadioButton facingEastRadioButton, JRadioButton facingWestRadioButton, JRadioButton notFacingNorthRadioButton, JRadioButton notFacingEastRadioButton, JRadioButton notFacingSouthRadioButton, JRadioButton notFacingWestRadioButton) {
+        this.frontIsClearRadioButton = frontIsClearRadioButton;
+        this.frontIsBlockedRadioButton = frontIsBlockedRadioButton;
+        this.leftIsClearRadioButton = leftIsClearRadioButton;
+        this.leftIsBlockedRadioButton = leftIsBlockedRadioButton;
+        this.rightIsClearRadioButton = rightIsClearRadioButton;
+        this.rightIsBlockedRadioButton = rightIsBlockedRadioButton;
+        this.nextToABeeperRadioButton = nextToABeeperRadioButton;
+        this.noBeepersInBeeperRadioButton = noBeepersInBeeperRadioButton;
+        this.notNextToARadioButton = notNextToARadioButton;
+        this.anyBeepersInBeeperRadioButton = anyBeepersInBeeperRadioButton;
+        this.facingNorthRadioButton = facingNorthRadioButton;
+        this.facingSouthRadioButton = facingSouthRadioButton;
+        this.facingEastRadioButton = facingEastRadioButton;
+        this.facingWestRadioButton = facingWestRadioButton;
+        this.notFacingNorthRadioButton = notFacingNorthRadioButton;
+        this.notFacingEastRadioButton = notFacingEastRadioButton;
+        this.notFacingSouthRadioButton = notFacingSouthRadioButton;
+        this.notFacingWestRadioButton = notFacingWestRadioButton;
+        p = cabeza;
+        System.out.println("----------------------------------------");
+        if (identificarProgramDeclaration()) {
+            System.out.println("Sintaxis correcta");
+            sintaxis_correcta = true;
+            //OBJ
+            try {
+                generarOBJ = new GenerarOBJ(lista_polish);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            //lista_polish.Mostrar();
+
+        } else {
+            sintaxis_correcta = false;
+
+        }
     }
 
     private void ImprimirError(int errorIdentificado) {
@@ -525,16 +583,22 @@ public class Sintaxis {
 
 
         if (pila.empty() && !lista_expresiones.Lista_polishVacia()) {
-            //System.out.println(lista_expresiones.toString());
-            // lista_expresiones.Mostrar();
-            while (!lista_expresiones.Lista_polishVacia()) {
-                //String lexema, int token, String tipo
-                lista_polish.Insertar_Nodo_Final(lista_expresiones.Pri.lexema,
-                        lista_expresiones.Pri.token, lista_expresiones.Pri.tipo);
-                lista_expresiones.Eliminar_Nodo_Inicio();
+
+            nodo_polish Actual = lista_expresiones.Pri;
+            if (lista_expresiones.Lista_polishVacia()) {
+                System.out.println("La " + "lista" + " esta vacia");
+            }
+            System.out.println("Lexema" + "\t" + "Tipo" + "\t" + "Salto" + "\t" + "Valor");
+            while (Actual != null) {
+                lista_polish.Insertar_Nodo_Final(Actual.lexema,
+                        Actual.token, Actual.tipo,
+                        Actual.valor);
+                //System.out.println(Actual.valor);
+
+                Actual = Actual.sig;
             }
 
-            //lista_polish.Mostrar();
+            lista_polish.Mostrar();
             lista_expresiones = new Lista_polish();
 
         }
@@ -757,8 +821,101 @@ public class Sintaxis {
         if (p.token >= 229 && p.token < 246) {
             boolean valor = false;
             //OBJ
-            //lista_polish.Insertar_Nodo_Final(p.lexema, p.token, "operando", valor);
-            lista_expresiones.Insertar_Nodo_Final(p.lexema, p.token, "operando", valor);
+/*
+*          {"front-is-clear", "229"},
+         {"front-is-blocked", "230"},
+         {"left-is-clear", "231"},
+         {"left-is-blocked", "232"},
+         {"right-is-clear", "233"},
+         {"right-is-blocked", "234"},
+         {"next-to-a-beeper", "235"},
+         {"not-next-to-a-beeper", "236"},
+         {"any-beepers-in-beeper-bag", "237"},
+         {"no-beepers-in-beeper-bag", "238"},
+         {"facing-north", "239"},
+         {"facing-south", "240"},
+         {"facing-east", "241"},
+         {"facing-west", "242"},
+         {"not-facing-north", "243"},
+         {"not-facing-south", "244"},
+         {"not-facing-east", "245"},
+         {"not-facing-west", "246"}
+* */
+            if (p.token == 229) {//front-is-clear
+                lista_expresiones.Insertar_Nodo_Final(p.lexema, p.token,
+                        "operando", Boolean.toString(frontIsClearRadioButton.isSelected()));
+            }
+            if (p.token == 230) {//front-is-blocked
+                lista_expresiones.Insertar_Nodo_Final(p.lexema, p.token,
+                        "operando", Boolean.toString(frontIsBlockedRadioButton.isSelected()));
+            }
+            if (p.token == 231) {//left-is-clear
+                lista_expresiones.Insertar_Nodo_Final(p.lexema, p.token,
+                        "operando", Boolean.toString(leftIsClearRadioButton.isSelected()));
+            }
+            if (p.token == 232) {//left-is-blocked
+                lista_expresiones.Insertar_Nodo_Final(p.lexema, p.token,
+                        "operando", Boolean.toString(leftIsBlockedRadioButton.isSelected()));
+            }
+            if (p.token == 233) {//right-is-clear
+                lista_expresiones.Insertar_Nodo_Final(p.lexema, p.token,
+                        "operando", Boolean.toString(rightIsClearRadioButton.isSelected()));
+
+            }
+            if (p.token == 234) {//right-is-blocked
+                lista_expresiones.Insertar_Nodo_Final(p.lexema, p.token,
+                        "operando", Boolean.toString(rightIsBlockedRadioButton.isSelected()));
+
+            }
+            if (p.token == 235) {//next-to-a-beeper
+                lista_expresiones.Insertar_Nodo_Final(p.lexema, p.token,
+                        "operando", Boolean.toString(nextToABeeperRadioButton.isSelected()));
+            }
+            if (p.token == 236) {//no-to-a-beeper
+                lista_expresiones.Insertar_Nodo_Final(p.lexema, p.token,
+                        "operando", Boolean.toString(notNextToARadioButton.isSelected()));
+            }
+            if (p.token == 237) {//any-beepers-in-beeper-bag
+                lista_expresiones.Insertar_Nodo_Final(p.lexema, p.token,
+                        "operando", Boolean.toString(anyBeepersInBeeperRadioButton.isSelected()));
+            }
+            if (p.token == 238) {//no-beepers-in-beeper-bag
+                lista_expresiones.Insertar_Nodo_Final(p.lexema, p.token,
+                        "operando", Boolean.toString(noBeepersInBeeperRadioButton.isSelected()));
+            }
+            if (p.token == 239) {//facing-north
+                lista_expresiones.Insertar_Nodo_Final(p.lexema, p.token,
+                        "operando", Boolean.toString(facingNorthRadioButton.isSelected()));
+            }
+            if (p.token == 240) {//facing-south
+                lista_expresiones.Insertar_Nodo_Final(p.lexema, p.token,
+                        "operando", Boolean.toString(facingSouthRadioButton.isSelected()));
+            }
+            if (p.token == 241) {//facing-east
+                lista_expresiones.Insertar_Nodo_Final(p.lexema, p.token,
+                        "operando", Boolean.toString(facingEastRadioButton.isSelected()));
+            }
+            if (p.token == 242) {//facing-west
+                lista_expresiones.Insertar_Nodo_Final(p.lexema, p.token,
+                        "operando", Boolean.toString(facingWestRadioButton.isSelected()));
+            }
+            if (p.token == 243) {//not-facing-north
+                lista_expresiones.Insertar_Nodo_Final(p.lexema, p.token,
+                        "operando", Boolean.toString(notFacingNorthRadioButton.isSelected()));
+            }
+            if (p.token == 244) {//not-facing-south
+                lista_expresiones.Insertar_Nodo_Final(p.lexema, p.token,
+                        "operando", Boolean.toString(notFacingSouthRadioButton.isSelected()));
+            }
+            if (p.token == 245) {//not-facing-east
+                lista_expresiones.Insertar_Nodo_Final(p.lexema, p.token,
+                        "operando", Boolean.toString(notFacingEastRadioButton.isSelected()));
+            }
+            if (p.token == 246) {//not-facing-west
+                lista_expresiones.Insertar_Nodo_Final(p.lexema, p.token,
+                        "operando", Boolean.toString(notFacingWestRadioButton.isSelected()));
+            }
+
 
             p = p.sig;
             return true;
@@ -810,4 +967,26 @@ public class Sintaxis {
         return false;
     }
 
+    public void mandarRadioButtons(JRadioButton frontIsClearRadioButton, JRadioButton frontIsBlockedRadioButton, JRadioButton leftIsClearRadioButton, JRadioButton leftIsBlockedRadioButton, JRadioButton rightIsClearRadioButton, JRadioButton rightIsBlockedRadioButton, JRadioButton nextToABeeperRadioButton, JRadioButton noBeepersInBeeperRadioButton, JRadioButton notNextToARadioButton, JRadioButton anyBeepersInBeeperRadioButton, JRadioButton facingNorthRadioButton, JRadioButton facingSouthRadioButton, JRadioButton facingEastRadioButton, JRadioButton facingWestRadioButton, JRadioButton notFacingNorthRadioButton, JRadioButton notFacingEastRadioButton, JRadioButton notFacingSouthRadioButton, JRadioButton notFacingWestRadioButton) {
+
+        this.frontIsClearRadioButton = frontIsClearRadioButton;
+        this.frontIsBlockedRadioButton = frontIsBlockedRadioButton;
+        this.leftIsClearRadioButton = leftIsClearRadioButton;
+        this.leftIsBlockedRadioButton = leftIsBlockedRadioButton;
+        this.rightIsClearRadioButton = rightIsClearRadioButton;
+        this.rightIsBlockedRadioButton = rightIsBlockedRadioButton;
+        this.nextToABeeperRadioButton = nextToABeeperRadioButton;
+        this.noBeepersInBeeperRadioButton = noBeepersInBeeperRadioButton;
+        this.notNextToARadioButton = notNextToARadioButton;
+        this.anyBeepersInBeeperRadioButton = anyBeepersInBeeperRadioButton;
+        this.facingNorthRadioButton = facingNorthRadioButton;
+        this.facingSouthRadioButton = facingSouthRadioButton;
+        this.facingEastRadioButton = facingEastRadioButton;
+        this.facingWestRadioButton = facingWestRadioButton;
+        this.notFacingNorthRadioButton = notFacingNorthRadioButton;
+        this.notFacingEastRadioButton = notFacingEastRadioButton;
+        this.notFacingSouthRadioButton = notFacingSouthRadioButton;
+        this.notFacingWestRadioButton = notFacingWestRadioButton;
+
+    }
 }

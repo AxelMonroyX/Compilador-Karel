@@ -16,39 +16,39 @@ import java.io.IOException;
 public class MainKarel {
     public JPanel JPanel1;
     public JTable table1;
+    public JButton seleccionarArchivoButton;
+    public JRadioButton frontIsClearRadioButton;
+    public JRadioButton frontIsBlockedRadioButton;
+    public JRadioButton leftIsClearRadioButton;
+    public JRadioButton leftIsBlockedRadioButton;
+    public JRadioButton rightIsClearRadioButton;
+    public JRadioButton rightIsBlockedRadioButton;
+    public JRadioButton nextToABeeperRadioButton;
+    public JButton lexicoButton;
+    public JButton generarCodigoObjetoButton;
+    public JButton sintaxisYSemanticaButton;
+    public JRadioButton noBeepersInBeeperRadioButton;
+    public JRadioButton notNextToARadioButton;
+    public JRadioButton anyBeepersInBeeperRadioButton;
+    public JRadioButton facingNorthRadioButton;
+    public JRadioButton facingSouthRadioButton;
+    public JRadioButton facingEastRadioButton;
+    public JRadioButton facingWestRadioButton;
+    public JRadioButton notFacingNorthRadioButton;
+    public JRadioButton notFacingEastRadioButton;
+    public JRadioButton notFacingSouthRadioButton;
+    public JRadioButton notFacingWestRadioButton;
+    public JLabel LabelRuta;
+    public JScrollPane tablescroll;
+    public JPanel panel2;
+    public JPanel panel3;
+    public JLabel LabelLexico;
+    public JLabel LabelSemantica;
+    public JLabel LabelGenerarCodigo;
+    public File myCodeFile = new File("/home/axelmonroyx/Karel/Karel/src/com/axelmonroyx/codigo2.txt");
+    public Lexico _Lexico;
+    public Sintaxis _Sintaxis;
     DefaultTableModel model = new DefaultTableModel();
-    private JButton seleccionarArchivoButton;
-    private JRadioButton frontIsClearRadioButton;
-    private JRadioButton frontIsBlockedRadioButton;
-    private JRadioButton leftIsClearRadioButton;
-    private JRadioButton leftIsBlockedRadioButton;
-    private JRadioButton rightIsClearRadioButton;
-    private JRadioButton rightIsBlockedRadioButton;
-    private JRadioButton nextToABeeperRadioButton;
-    private JButton lexicoButton;
-    private JButton generarCodigoObjetoButton;
-    private JButton sintaxisYSemanticaButton;
-    private JRadioButton noBeepersInBeeperRadioButton;
-    private JRadioButton notNextToARadioButton;
-    private JRadioButton anyBeepersInBeeperRadioButton;
-    private JRadioButton facingNorthRadioButton;
-    private JRadioButton facingSouthRadioButton;
-    private JRadioButton facingEastRadioButton;
-    private JRadioButton facingWestRadioButton;
-    private JRadioButton notFacingNorthRadioButton;
-    private JRadioButton notFacingEastRadioButton;
-    private JRadioButton notFacingSouthRadioButton;
-    private JRadioButton notFacingWestRadioButton;
-    private JLabel LabelRuta;
-    private JScrollPane tablescroll;
-    private JPanel panel2;
-    private JPanel panel3;
-    private JLabel LabelLexico;
-    private JLabel LabelSemantica;
-    private JLabel LabelGenerarCodigo;
-    private File myCodeFile = new File("/home/axelmonroyx/Karel/Karel/src/com/axelmonroyx/codigo2.txt");
-    private Lexico _Lexico;
-    private Sintaxis _Sintaxis;
 
     public MainKarel() {
         LabelRuta.setText("Archivo: " + myCodeFile.getPath());
@@ -94,7 +94,26 @@ public class MainKarel {
     }
 
     private void runSintaxisSemantica() {
-        _Sintaxis = new Sintaxis(_Lexico.cabeza);
+        _Sintaxis = new Sintaxis(_Lexico.cabeza,
+                frontIsClearRadioButton,
+                frontIsBlockedRadioButton,
+                leftIsClearRadioButton,
+                leftIsBlockedRadioButton,
+                rightIsClearRadioButton,
+                rightIsBlockedRadioButton,
+                nextToABeeperRadioButton,
+                noBeepersInBeeperRadioButton,
+                notNextToARadioButton,
+                anyBeepersInBeeperRadioButton,
+                facingNorthRadioButton,
+                facingSouthRadioButton,
+                facingEastRadioButton,
+                facingWestRadioButton,
+                notFacingNorthRadioButton,
+                notFacingEastRadioButton,
+                notFacingSouthRadioButton,
+                notFacingWestRadioButton);
+        // _Sintaxis.mandarRadioButtons();
         if (_Sintaxis.sintaxis_correcta && _Sintaxis.semantica_correcta) {
             LabelSemantica.setText("Sintaxis y semantica correctos");
         } else {
@@ -127,7 +146,7 @@ public class MainKarel {
 
             while (_Lexico.p.sig != null) {
 
-                if ((int) _Lexico.p.token >= 200) {
+                if (_Lexico.p.token >= 200) {
                     String color = "\u001B[34m";
                     System.out.println(color + "Imprimir nodo: \t\t\t" + _Lexico.p.lexema + " \t\t\t\t\t" + _Lexico.p.token + " \t\t" + _Lexico.p.num_renglon);
                     addnodo(_Lexico.p.lexema, _Lexico.p.token, _Lexico.p.num_renglon);
