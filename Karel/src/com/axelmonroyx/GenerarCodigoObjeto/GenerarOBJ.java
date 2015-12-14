@@ -45,6 +45,7 @@ public class GenerarOBJ {
         StringBuilder codigoASM = new StringBuilder();
         Stack pila = new Stack();
         nodo_polish Actual = lista_polish.Pri;
+        boolean auxLastCondition = false;
         while (Actual != null) {
             if (Actual.tipo.equals("operando")) {
                 pila.push(Actual);
@@ -60,6 +61,60 @@ public class GenerarOBJ {
                     codigoASM.append("\t");
                     codigoASM.append("WRITELN ");
                 }
+                if (Actual.lexema.equals("or")) {
+                    nodo_polish elemento2 = (nodo_polish) pila.pop();
+                    nodo_polish elemento1 = (nodo_polish) pila.pop();
+                    if (elemento1.valor.equals("true") || elemento2.valor.equals("true")) {
+                        auxLastCondition = true;
+                        lista_polish.Insertar_Nodo_Final("condition", 1000, "operando", "true");
+                    } else {
+                        auxLastCondition = false;
+                        lista_polish.Insertar_Nodo_Final("condition", 1000, "operando", "false");
+                    }
+
+                }
+                if (Actual.lexema.equals("and")) {
+                    nodo_polish elemento2 = (nodo_polish) pila.pop();
+                    nodo_polish elemento1 = (nodo_polish) pila.pop();
+                    if (elemento1.valor.equals("true") && elemento2.valor.equals("true")) {
+                        auxLastCondition = true;
+                        lista_polish.Insertar_Nodo_Final("condition", 1000, "operando", "true");
+                    } else {
+                        auxLastCondition = false;
+                        lista_polish.Insertar_Nodo_Final("condition", 1000, "operando", "false");
+                    }
+
+                }
+                if (Actual.lexema.equals("not")) {
+
+                    nodo_polish elemento1 = (nodo_polish) pila.pop();
+                    if (elemento1.valor.equals("false")) {
+                        auxLastCondition = true;
+                        lista_polish.Insertar_Nodo_Final("condition", 1000, "operando", "true");
+                    } else {
+                        auxLastCondition = false;
+                        lista_polish.Insertar_Nodo_Final("condition", 1000, "operando", "false");
+                    }
+
+                }
+                if (Actual.lexema.equals("BRI")) {
+                    codigoASM.append(System.lineSeparator());
+                    codigoASM.append("\t");
+                    codigoASM.append("\t");
+                    codigoASM.append("JMP " + Actual.valor);
+                }
+                if (Actual.lexema.equals("BRF")) {
+                    codigoASM.append(System.lineSeparator());
+                    codigoASM.append("\t");
+                    codigoASM.append("\t");
+                    if (auxLastCondition) {
+                        codigoASM.append("JF 1," + Actual.valor);
+                    } else {
+                        codigoASM.append("JF 0," + Actual.valor);
+                    }
+
+                }
+
 
 
             } else if (Actual.tipo.equals("puntero")) {

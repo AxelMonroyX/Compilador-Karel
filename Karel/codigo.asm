@@ -42,30 +42,14 @@ CALL  COMPI
 COMPI  PROC
 
 ;COMPI
-		WRITE turnoff
-		WRITELN 
-		WRITE turnoff
-		WRITELN 
-		WRITE turnoff
-		WRITELN 
+		JF 0,P1
 		WRITE pickbeeper
 		WRITELN 
-		WRITE pickbeeper
-		WRITELN 
+		JMP Q1
 	P1:
+		WRITE turnleft
+		WRITELN 
 	Q1:
-		WRITE pickbeeper
-		WRITELN 
-	P2:
-		WRITE pickbeeper
-		WRITELN 
-	Q2:
-		WRITE pickbeeper
-		WRITELN 
-		WRITE pickbeeper
-		WRITELN 
-		WRITE pickbeeper
-		WRITELN 
 		ret
 COMPI  ENDP
 END BEGIN

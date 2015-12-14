@@ -693,7 +693,7 @@ public class Sintaxis {
                     return true;
                 }
             } else {
-                //Completar_Lista_Expresiones();
+                Completar_Lista_Expresiones();
                 return true;
             }
         }
@@ -723,9 +723,11 @@ public class Sintaxis {
                 insertarPila("and");
                 p = p.sig;
                 if (identificarAndClause()) {
+                    Completar_Lista_Expresiones();
                     return true;
                 }
             } else {
+                Completar_Lista_Expresiones();
                 return true;
             }
         }
@@ -737,11 +739,13 @@ public class Sintaxis {
             insertarPila("not");
             p = p.sig;
             if (identificarAtomClause()) {
+                Completar_Lista_Expresiones();
                 return true;
             }
 
         } else {
             if (identificarAtomClause()) {
+                Completar_Lista_Expresiones();
                 return true;
             }
         }
@@ -789,7 +793,12 @@ public class Sintaxis {
                 if (p.token == 102) { // num
                     lista_expresiones.Insertar_Nodo_Final(p.lexema, 102, "operando");
                     lista_expresiones.Insertar_Nodo_Final("0", 102, "operando");
-                    lista_expresiones.Insertar_Nodo_Final("iszero", 216, "operador");
+                    if (p.lexema.equals("0")) {
+                        lista_expresiones.Insertar_Nodo_Final("iszero", 216, "operando", "true");
+                    } else {
+                        lista_expresiones.Insertar_Nodo_Final("iszero", 216, "operando", "false");
+                    }
+
                     p = p.sig;
                     if (p.token == 104) { // )
                         p = p.sig;
