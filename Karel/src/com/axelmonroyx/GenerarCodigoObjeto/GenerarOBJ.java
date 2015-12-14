@@ -49,6 +49,12 @@ public class GenerarOBJ {
         while (Actual != null) {
             if (Actual.tipo.equals("operando")) {
                 pila.push(Actual);
+
+                if (Actual.sig != null && Actual.sig.lexema.equals("BRF") && Actual.sig.tipo.equals("operador")) {
+                    auxLastCondition = Boolean.parseBoolean(Actual.valor);
+                }
+
+
             } else if (Actual.tipo.equals("operador")) {
                 if (Actual.lexema.equals("print")) {
                     codigoASM.append(System.lineSeparator());
@@ -114,7 +120,6 @@ public class GenerarOBJ {
                     }
 
                 }
-
 
 
             } else if (Actual.tipo.equals("puntero")) {

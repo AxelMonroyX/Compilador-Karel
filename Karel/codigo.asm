@@ -43,13 +43,19 @@ COMPI  PROC
 
 ;COMPI
 		JF 0,P1
+		JF 1,P2
 		WRITE pickbeeper
 		WRITELN 
 		JMP Q1
+	P2:
+		WRITE move
+		WRITELN 
+	Q1:
+		JMP Q2
 	P1:
 		WRITE turnleft
 		WRITELN 
-	Q1:
+	Q2:
 		ret
 COMPI  ENDP
 END BEGIN

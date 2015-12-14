@@ -532,14 +532,15 @@ public class Sintaxis {
                     p = p.sig;
                     //BRF P
                     punteroIF_P++;
-                    lista_polish.Insertar_Brinco("BRF", 100, "operador", ("P" + punteroIF_P));
+                    int punteroIF_P_interno=punteroIF_P;
+                    lista_polish.Insertar_Brinco("BRF", 100, "operador", ("P" + punteroIF_P_interno));
 
                     if (identificarStatement()) { //S1
                         // lista_polish.Mostrar();
                         //BRF P
                         punteroIF_Q++;
                         lista_polish.Insertar_Brinco("BRI", 100, "operador", ("Q" + punteroIF_Q));
-                        lista_polish.Insertar_Nodo_Final("P" + punteroIF_P, 100, "puntero");
+                        lista_polish.Insertar_Nodo_Final("P" + punteroIF_P_interno, 100, "puntero");
 
 
                         if (p.token == 105) {

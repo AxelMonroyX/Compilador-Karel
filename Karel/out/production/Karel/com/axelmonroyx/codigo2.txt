@@ -4,8 +4,10 @@ beginning-of-execution
 
 
 //If simple
-if  iszero(15) or right-is-clear
-then pickbeeper;
+if  right-is-clear or left-is-clear
+then if  front-is-clear
+     then pickbeeper;
+     else move;
 else turnleft;
 
 
