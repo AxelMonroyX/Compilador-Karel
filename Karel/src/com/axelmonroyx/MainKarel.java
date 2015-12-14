@@ -25,7 +25,6 @@ public class MainKarel {
     public JRadioButton rightIsBlockedRadioButton;
     public JRadioButton nextToABeeperRadioButton;
     public JButton lexicoButton;
-    public JButton generarCodigoObjetoButton;
     public JButton sintaxisYSemanticaButton;
     public JRadioButton noBeepersInBeeperRadioButton;
     public JRadioButton notNextToARadioButton;

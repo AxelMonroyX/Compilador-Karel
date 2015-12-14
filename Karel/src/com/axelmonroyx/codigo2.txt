@@ -12,7 +12,7 @@ else turnleft;
 iterate 2 times iterate 2 times move;
 
 if  right-is-clear
-then pickbeeper;
+then iterate 2 times iterate 2 times turnleft;
 
 
 end-of-execution

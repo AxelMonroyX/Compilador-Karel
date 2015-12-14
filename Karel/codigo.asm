@@ -69,8 +69,18 @@ COMPI  PROC
 		loop S1
 		POP CX
 		JF 0,P3
-		WRITE pickbeeper
+		PUSH CX
+		MOV CX,2
+	S3:
+		PUSH CX
+		MOV CX,2
+	S4:
+		WRITE turnleft
 		WRITELN 
+		loop S4
+		POP CX
+		loop S3
+		POP CX
 		JMP Q3
 	P3:
 	Q3:

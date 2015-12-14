@@ -3,12 +3,16 @@ beginning-of-program //INICIO DEL PROGRAMA
 beginning-of-execution
 
 
-//If simple
+//If anidado
 if  right-is-clear or left-is-clear
 then if  front-is-clear
      then pickbeeper;
      else move;
 else turnleft;
+iterate 2 times iterate 2 times move;
+
+if  right-is-clear
+then iterate 2 times iterate 2 times turnleft;
 
 
 end-of-execution
