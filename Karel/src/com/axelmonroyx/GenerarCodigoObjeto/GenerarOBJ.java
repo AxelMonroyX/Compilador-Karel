@@ -67,6 +67,18 @@ public class GenerarOBJ {
                     codigoASM.append("\t");
                     codigoASM.append("WRITELN ");
                 }
+                if (Actual.lexema.equals("repeat")) {
+                    nodo_polish elemento1 = (nodo_polish) pila.peek();
+                    codigoASM.append(System.lineSeparator());
+                    codigoASM.append("\t");
+                    codigoASM.append("\t");
+                    codigoASM.append("PUSH CX");
+                    codigoASM.append(System.lineSeparator());
+                    codigoASM.append("\t");
+                    codigoASM.append("\t");
+                    codigoASM.append("MOV CX," + elemento1.lexema);
+
+                }
                 if (Actual.lexema.equals("or")) {
                     nodo_polish elemento2 = (nodo_polish) pila.pop();
                     nodo_polish elemento1 = (nodo_polish) pila.pop();
@@ -126,6 +138,16 @@ public class GenerarOBJ {
                 codigoASM.append(System.lineSeparator());
                 codigoASM.append("\t");
                 codigoASM.append(Actual.lexema + ":");
+            } else if (Actual.tipo.equals("loop")) {
+                codigoASM.append(System.lineSeparator());
+                codigoASM.append("\t");
+                codigoASM.append("\t");
+                codigoASM.append("loop " + Actual.lexema);
+                codigoASM.append(System.lineSeparator());
+                codigoASM.append("\t");
+                codigoASM.append("\t");
+                codigoASM.append("POP CX");
+
             }
 
 

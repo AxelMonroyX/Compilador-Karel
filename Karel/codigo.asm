@@ -43,7 +43,7 @@ COMPI  PROC
 
 ;COMPI
 		JF 0,P1
-		JF 1,P2
+		JF 0,P2
 		WRITE pickbeeper
 		WRITELN 
 		JMP Q1
@@ -56,6 +56,24 @@ COMPI  PROC
 		WRITE turnleft
 		WRITELN 
 	Q2:
+		PUSH CX
+		MOV CX,2
+	S1:
+		PUSH CX
+		MOV CX,2
+	S2:
+		WRITE move
+		WRITELN 
+		loop S2
+		POP CX
+		loop S1
+		POP CX
+		JF 0,P3
+		WRITE pickbeeper
+		WRITELN 
+		JMP Q3
+	P3:
+	Q3:
 		ret
 COMPI  ENDP
 END BEGIN

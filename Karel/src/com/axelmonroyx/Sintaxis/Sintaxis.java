@@ -82,6 +82,7 @@ public class Sintaxis {
     private JRadioButton notFacingEastRadioButton;
     private JRadioButton notFacingSouthRadioButton;
     private JRadioButton notFacingWestRadioButton;
+    private int punteroIterate_S;
 
     public Sintaxis(nodo cabeza) {
         p = cabeza;
@@ -532,7 +533,7 @@ public class Sintaxis {
                     p = p.sig;
                     //BRF P
                     punteroIF_P++;
-                    int punteroIF_P_interno=punteroIF_P;
+                    int punteroIF_P_interno = punteroIF_P;
                     lista_polish.Insertar_Brinco("BRF", 100, "operador", ("P" + punteroIF_P_interno));
 
                     if (identificarStatement()) { //S1
@@ -622,13 +623,27 @@ public class Sintaxis {
     }
 
     private boolean identificarIterate_Statement() {
+        this.punteroIterate_S++;
+        int punteroIterate_local_S = punteroIterate_S;
         if (p.token == 222) { //iterate
             p = p.sig;
             if (p.token == 102) { // num
+
+
+                //Exp
+                lista_polish.Insertar_Nodo_Final(p.lexema, p.token, "operando");
+                lista_polish.Insertar_Nodo_Final("repeat", 1000, "operador");
+                lista_polish.Insertar_Nodo_Final("S" + punteroIterate_local_S, 100, "puntero");
+                //BRF
+                // lista_polish.Insertar_Brinco("BRF", 1200, "operador", ("S" + punteroIterate_local_S));
                 p = p.sig;
                 if (p.token == 223) { //times
                     p = p.sig;
-                    if (identificarStatement()) {
+                    if (identificarStatement()) {//S1
+                        //lista_polish.Insertar_Brinco("BRI", 1200, "operador", ("R" + punteroIterate_local_S));
+                        lista_polish.Insertar_Nodo_Final("S" + punteroIterate_local_S, 100, "loop");
+                        //lista_polish.Insertar_Nodo_Final("R" + punteroIterate_local_S, 100, "puntero");
+
                         return true;
                     }
                 }
