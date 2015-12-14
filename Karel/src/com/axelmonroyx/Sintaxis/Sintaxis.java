@@ -598,7 +598,6 @@ public class Sintaxis {
                 Actual = Actual.sig;
             }
 
-            lista_polish.Mostrar();
             lista_expresiones = new Lista_polish();
 
         }

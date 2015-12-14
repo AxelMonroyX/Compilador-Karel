@@ -22,7 +22,14 @@ STACK 100h
 			t1 dw ?
 			t2 dw ?
 			t3 dw ?
-			cadena db 'Hola Mundo','$'
+			cadena db '','$'
+			turnoff db 'turnoff','$'
+            turnleft db 'turnleft','$'
+            move db 'move','$'
+            pickbeeper db 'pickbeeper','$'
+            putbeeper db 'putbeeper','$'
+
+
 
 .CODE
 .386
@@ -35,6 +42,30 @@ CALL  COMPI
 COMPI  PROC
 
 ;COMPI
+		WRITE turnoff
+		WRITELN 
+		WRITE turnoff
+		WRITELN 
+		WRITE turnoff
+		WRITELN 
+		WRITE pickbeeper
+		WRITELN 
+		WRITE pickbeeper
+		WRITELN 
+	P1:
+	Q1:
+		WRITE pickbeeper
+		WRITELN 
+	P2:
+		WRITE pickbeeper
+		WRITELN 
+	Q2:
+		WRITE pickbeeper
+		WRITELN 
+		WRITE pickbeeper
+		WRITELN 
+		WRITE pickbeeper
+		WRITELN 
 		ret
 COMPI  ENDP
 END BEGIN

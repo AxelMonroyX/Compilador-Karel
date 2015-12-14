@@ -22,7 +22,14 @@ STACK 100h
 			t1 dw ?
 			t2 dw ?
 			t3 dw ?
-			cadena db 'Hola Mundo','$'
+			cadena db '','$'
+			turnoff db 'turnoff','$'
+            turnleft db 'turnleft','$'
+            move db 'move','$'
+            pickbeeper db 'pickbeeper','$'
+            putbeeper db 'putbeeper','$'
+
+
 
 .CODE
 .386

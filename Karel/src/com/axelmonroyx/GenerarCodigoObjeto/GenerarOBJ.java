@@ -1,6 +1,7 @@
 package com.axelmonroyx.GenerarCodigoObjeto;
 
 import java.io.*;
+import java.util.Stack;
 
 
 /**
@@ -30,11 +31,47 @@ public class GenerarOBJ {
             PrintWriter wr = new PrintWriter(bw);
             wr.write(head);//escribimos en el archivo
             wr.write(";COMPI");
+            String resultadocompilador = obtenerResultado();
+            wr.append(resultadocompilador);
             wr.append(bottom); //concatenamos
             wr.close();
             bw.close();
         } catch (IOException e) {
         }
+    }
+
+    private String obtenerResultado() {
+        lista_polish.Mostrar();
+        StringBuilder codigoASM = new StringBuilder();
+        Stack pila = new Stack();
+        nodo_polish Actual = lista_polish.Pri;
+        while (Actual != null) {
+            if (Actual.tipo.equals("operando")) {
+                pila.push(Actual);
+            } else if (Actual.tipo.equals("operador")) {
+                if (Actual.lexema.equals("print")) {
+                    codigoASM.append(System.lineSeparator());
+                    codigoASM.append("\t");
+                    nodo_polish elementopila = (nodo_polish) pila.pop();
+                    codigoASM.append("\t");
+                    codigoASM.append("WRITE " + elementopila.lexema);
+                    codigoASM.append(System.lineSeparator());
+                    codigoASM.append("\t");
+                    codigoASM.append("\t");
+                    codigoASM.append("WRITELN ");
+                }
+
+
+            } else if (Actual.tipo.equals("puntero")) {
+                codigoASM.append(System.lineSeparator());
+                codigoASM.append("\t");
+                codigoASM.append(Actual.lexema + ":");
+            }
+
+
+            Actual = Actual.sig;
+        }
+        return codigoASM.toString();
     }
 
     private String obtenerPlantilla(String nombreArchivo) throws IOException {
