@@ -42,8 +42,8 @@ CALL  COMPI
 COMPI  PROC
 
 ;COMPI
-		JF 0,P1
-		JF 0,P2
+		JF 1,P1
+		JF 1,P2
 		WRITE pickbeeper
 		WRITELN 
 		JMP Q1
@@ -57,10 +57,10 @@ COMPI  PROC
 		WRITELN 
 	Q2:
 		PUSH CX
-		MOV CX,2
+		MOV CX,3
 	S1:
 		PUSH CX
-		MOV CX,2
+		MOV CX,3
 	S2:
 		WRITE move
 		WRITELN 
@@ -68,7 +68,7 @@ COMPI  PROC
 		POP CX
 		loop S1
 		POP CX
-		JF 0,P3
+		JF 1,P3
 		PUSH CX
 		MOV CX,2
 	S3:

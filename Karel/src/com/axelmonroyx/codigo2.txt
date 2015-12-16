@@ -9,10 +9,13 @@ then if  front-is-clear
      then pickbeeper;
      else move;
 else turnleft;
-iterate 2 times iterate 2 times move;
+
+iterate 3 times iterate 3 times move;
 
 if  right-is-clear
 then iterate 2 times iterate 2 times turnleft;
+
+
 
 
 end-of-execution
